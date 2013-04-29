@@ -1,0 +1,42 @@
+<html>
+	<head>
+		<link rel="stylesheet" href="main.css" />
+		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+		<script type="text/javascript" src="http://d3js.org/d3.v2.js"></script> 
+		<script type="text/javascript" src="//use.typekit.net/kbx8ksw.js"></script>
+		<script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+		
+		<script type="text/javascript" src="map.js"></script>
+		<script type="text/javascript" src="graph.js"></script>
+		<title>Shedding Light on Election Demographics - 2012</title>
+	</head>
+	<body>
+		<h1>Shedding Light on Election Demographics - 2012</h1>
+		<p style="margin-right:150px">Select a demographic variable to see its relationship to the winner of each county. Brighter colors reflect a higher demographic value (not margin of victory). <a href="#about">About this kind of map ></a></p>
+		<div id="boxes">
+			<div class="box on" id="population" name="0.99">Population<br /><img src="triangle.png" id="triangle" /></div>
+			<!-- <div class="box" id="density" name="0.99">Population Density<br /></div> -->
+			<div class="box" id="medicare" name="0.99">% with Medicare<br /></div>
+			<div class="box" id="poverty" name="1">Poverty Rate<br /></div>
+			<div class="box" id="uninsured" name="1">% Uninsured<br /></div>
+			<div class="box" id="wealthy" name="0.99">% Wealthy<br /></div>
+			<div class="box" id="nonwhite" name="1">% Non-White<br /></div>
+			<div class="box" id="birth_rate" name="0.99">Birth Rate<br /></div>
+		</div>
+		<div id="body"></div>
+		<div id="graph">
+			<p id="y-axis">Demographic</p>
+			<div id="zero">&lt;-- Stronger Romney support&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;Stronger Obama support --&gt;</div>
+			<div id="graph-inner"></div>
+		</div>
+		<div id="about">
+			<a name="about"></a><h1>About the maps</h1>
+			<p>The maps here use a technique called <em>value-by-alpha</em>, which is essentially a bivariate choropleth map that "equalizes" a base map so that the visual weight of a map unit corresponds to a data value. In this case, we are showing election results as a binary red-blue choropleth map, then varying visual weight by a demographic variable, fading out counties with low values. For example, in the population map counties with lower populations are less visually prominent while counties with high populations remain brightly colored, giving a more accurately weighted picture of the country than a map showing a sea of red in sparsely populated areas.</p>
+			<p>Value-by-alpha is something we experimented with following the <a href="http://www.axismaps.com/blog/2008/11/a-new-kind-of-election-map/" target="_blank">2008 presidential election</a> as an alternative method to display what is often shown by <a href="http://en.wikipedia.org/wiki/Cartogram" target="_blank">cartograms</a>. It is an attempt to provide similar visual equalization of the map while maintaining the geographic accuracy that cartograms must sacrifice. For more about value-by-alpha maps, see the <a href="http://www.geovista.psu.edu/publications/2010/RothEtAl_2010_CJ.pdf" target="_blank">2010 paper by Robert Roth et al.</a></p>
+			<p>Election data from <a href="http://www.guardian.co.uk/news/datablog/2012/nov/07/us-2012-election-county-results-download#data" target="_blank">The Guardian</a>. Demographic data from the <a href="http://www.census.gov/geo/maps-data/data/tiger-data.html" target="_blank">US Census Bureau.</a> A <a href="https://dl.dropbox.com/u/16406034/election2012_counties.zip">shapefile with the combined data</a> is available for download.</p>
+		</div>
+		<div id="probe"></div>
+		<a href="http://www.axismaps.com" target="_blank"><img src="logo.png" alt="logo" width="100" height="21" style="position:absolute;top:20px;left:920px;opacity:0.5;" /></a>
+		<div id="loader"></div>
+	</body>
+</html>
