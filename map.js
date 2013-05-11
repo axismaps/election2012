@@ -70,37 +70,37 @@ function setup_map()
 	var states = svg.append( "svg:g" )
 		.attr( "id", "states" );
 		
-	d3.json( "data/counties.geojson", function( json )
+	d3.json( "data/counties.json", function( json )
 	{
 		counties.selectAll( "path" )
-			.data( json.features )
+			.data( topojson.feature( json, json.objects.counties ).features )
 			.enter()
 			.append( "svg:path" )
 			.attr( "class", function( d )
 			{
-				var p = getVote( data.vote, d.properties.FIPS );
+				var p = getVote( data.vote, d.id );
 				return p;
 			})
 			.attr( "id", function( d )
 			{
-				return d.properties.FIPS;
+				return d.id;
 			})
 			.style( "fill-opacity", function( d )
 			{
-				return getOpacity( demo, d.properties.FIPS, 0.95 );
+				return getOpacity( demo, d.id, 0.95 );
 			})
 			.attr( "d", path )
-			.on("mousemove",showProbe)
-			.on("mouseout",hideProbe)
+			.on( "mousemove", showProbe )
+			.on( "mouseout", hideProbe )
 			.append( "svg:title" )
 			
 			$( "#loader" ).hide();
 	});
 	
-	d3.json( "data/states.geojson", function( json )
+	d3.json( "data/states.json", function( json )
 	{
 		states.selectAll("path")
-			.data( json.features )
+			.data( topojson.feature( json, json.objects.states ).features )
 			.enter()
 			.append( "svg:path" )
 			.attr( "d", path );
@@ -165,15 +165,17 @@ function get_quant( raw )
 	return arr;
 }
 
-var format = d3.format(",");
+var format = d3.format( "," );
 function showProbe( d )
 {
-	$("#probe").show()
-		.html( "<p>"+d.properties.NAME+ " " +(d.properties.LSAD || "")+"</p>" +
-				"<p>Margin: "+Math.round(Math.abs(data.vote.obj[d.properties.FIPS])*10000)/100+"% " + (data.vote.obj[d.properties.FIPS] > 0 ? "Obama" : "Romney") + "<p>" +
-				"<p>"+demo.name+": "+format(Math.round(Math.abs(demo.obj[d.properties.FIPS])*100)/100)+"</p>" )
-		.css({left: d3.event.pageX + 200 > $(window).width() ? d3.event.pageX - $("#probe").width() - 10 : d3.event.pageX + 10, top: d3.event.pageY - $("#probe").height() - 10});
-	$( "#graph-inner div[name='" + d.properties.FIPS + "']" ).addClass( "graph_highlight" );
+	$( "#probe" ).show()
+		.html(
+			"<p>" + d.properties.NAME +  " " + ( d.properties.LSAD || "County" ) + "</p>" +
+			"<p>Margin: " + Math.round( Math.abs( data.vote.obj[ d.id ] ) * 10000 ) / 100 + "% " + ( data.vote.obj[ d.id ] > 0 ? "Obama" : "Romney" ) + "</p>" +
+			"<p>" + demo.name + ": " + format( Math.round( Math.abs( demo.obj[ d.id ] ) * 100 ) / 100 ) + "</p>"
+		)
+		.css( { left : d3.event.pageX + 200 > $(window).width() ? d3.event.pageX - $("#probe").width() - 10 : d3.event.pageX + 10, top: d3.event.pageY - $("#probe").height() - 10 } );
+	$( "#graph-inner div[name='" + d.id + "']" ).addClass( "graph_highlight" );
 }
 function hideProbe( d )
 {
